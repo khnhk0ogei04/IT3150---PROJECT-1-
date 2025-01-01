@@ -1,0 +1,59 @@
+# depslib dependency file v1.0
+1735766367 source:d:\cvrprelease\clarkewright.cpp
+	"ClarkeWright.h"
+	<algorithm>
+	<cmath>
+	<iostream>
+	<vector>
+	<iomanip>
+
+1735678878 d:\cvrprelease\clarkewright.h
+	"CVRP.h"
+	<iostream>
+
+1735768698 d:\cvrprelease\cvrp.h
+	<vector>
+	<string>
+	<map>
+
+1735768866 source:d:\cvrprelease\cvrp.cpp
+	"CVRP.h"
+	<fstream>
+	<sstream>
+	<iostream>
+	<math.h>
+
+1735768928 source:d:\cvrprelease\main.cpp
+	"ClarkeWright.h"
+	"CVRP.h"
+	"TwoOpt.h"
+	"ThreeOpt.h"
+	<iostream>
+
+1735675728 d:\cvrprelease\twoopt.h
+	"CVRP.h"
+	<vector>
+
+1735766347 source:d:\cvrprelease\twoopt.cpp
+	"TwoOpt.h"
+	"CVRP.h"
+	<algorithm>
+	<iostream>
+	<cmath>
+
+1735675095 d:\cvrprelease\threeopt.h
+	"CVRP.h"
+	<iostream>
+	<vector>
+
+1735766359 source:d:\cvrprelease\threeopt.cpp
+	"ThreeOpt.h"
+	<algorithm>
+	<iostream>
+	<cmath>
+	<tuple>
+	<vector>
+	<map>
+	<string>
+	<limits>
+
