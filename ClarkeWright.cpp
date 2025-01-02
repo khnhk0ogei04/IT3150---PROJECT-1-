@@ -7,26 +7,20 @@
 
 using namespace std;
 
-// So sánh Saving theo thứ tự sắp xếp giảm dần
 bool compareSavingCost(const Saving &A, const Saving &B) {
-    if (A.savingCost != B.savingCost) {
-        return (A.savingCost > B.savingCost);
+    if (A.savingCost == B.savingCost){
+        return A.startNode > B.startNode;
     }
-    if (A.startNode != B.startNode) {
-        return (A.startNode > B.startNode);
-    }
-    return (A.endNode > B.endNode);
+    return A.savingCost > B.savingCost;
 }
 
 void runClarkeWright(CVRP &cvrp)
 {
-    // Đổi tên biến để tránh trùng lặp
     int nodeCount     = cvrp.dimension;
     int depot         = cvrp.depot;
     int capacity      = cvrp.capacity;
     int truckCount    = cvrp.numberOfTrucks;
 
-    // 1) Tính distance
     vector< vector<double> > dist(nodeCount + 1, vector<double>(nodeCount + 1, 0.0));
     for (int i = 1; i <= nodeCount; i++) {
         for (int j = 1; j <= nodeCount; j++) {
@@ -34,8 +28,6 @@ void runClarkeWright(CVRP &cvrp)
         }
     }
 
-    // 2) Tạo danh sách saving
-    //    Mỗi cặp (i,j) != depot, savingCost = dist[depot][i] + dist[depot][j] - dist[i][j]
     vector<Saving> savingList;
     savingList.reserve((nodeCount - 1) * (nodeCount - 1) * 2);
 
@@ -59,11 +51,10 @@ void runClarkeWright(CVRP &cvrp)
             savingList.push_back(s2);
         }
     }
-    // Sắp xếp giảm dần savingCost
     sort(savingList.begin(), savingList.end(), compareSavingCost);
 
     // 3) Chuẩn bị các biến: allRoutes, belongs, routeDemand
-    int numberOfRoutes = nodeCount - 1;  // ban đầu
+    int numberOfRoutes = nodeCount - 1;
     vector< vector<int> > routeList(nodeCount + 1);
     vector<int> routeOf(nodeCount + 1, -1);
     vector<int> routeDemandUsed(nodeCount + 1, 0);
@@ -148,7 +139,6 @@ void runClarkeWright(CVRP &cvrp)
         }
     }
 
-    // 5) Tính cost => cvrp.routes, cvrp.ClarkAndWrightoutput
     double totalCost = 0.0;
     for (int rid = 1; rid <= routeIDCounter; rid++) {
         if (!routeList[rid].empty()) {

@@ -3,21 +3,44 @@
 #include "TwoOpt.h"
 #include "ThreeOpt.h"
 #include <iostream>
+#include <vector>
+#include <filesystem>
+
+using namespace std;
+namespace fs = filesystem;
 
 int main() {
-    std::string filePath = "C://Users//Lenovo//Downloads//Vrp-Set-A//A//A-n32-k5.vrp";
-    std::string outputDirectory = "C://Users//Lenovo//Downloads//Vrp-Set-A//";
+    string inputDirectory = "C://Users//Lenovo//Downloads//Vrp-Set-A//A//";
+    string outputDirectory = "C://Users//Lenovo//Downloads//Vrp-Set-A//";
 
-    CVRP cvrp = readFile(filePath);
+    std::vector<std::string> vrpFiles;
+    for (const auto &entry : fs::directory_iterator(inputDirectory)) {
+        if (entry.path().extension() == ".vrp") {
+            vrpFiles.push_back(entry.path().string());
+        }
+    }
 
-    runClarkeWright(cvrp);
-    writeResultToFile(cvrp, outputDirectory + "clarkewright//clarkewright_" + cvrp.name + ".txt");
+    // Duyệt qua từng file
+    for (const std::string &filePath : vrpFiles) {
+        std::cout << "Processing file: " << filePath << std::endl;
 
-    runTwoOptFromClarkeWright(cvrp);
-    writeResultToFile(cvrp, outputDirectory + "twoopt//twoopt_" + cvrp.name + ".txt");
+        // Đọc dữ liệu từ file
+        CVRP cvrp = readFile(filePath);
 
-    runThreeOptFromTwoOpt(cvrp);
-    writeResultToFile(cvrp, outputDirectory + "threeopt//threeopt_" + cvrp.name + ".txt");
+        // Chạy thuật toán Clarke-Wright và ghi kết quả
+        runClarkeWright(cvrp);
+        writeResultToFile(cvrp, outputDirectory + "clarkewright//clarkewright_" + cvrp.name + ".txt");
+
+        // Chạy thuật toán 2-Opt và ghi kết quả
+        runTwoOptFromClarkeWright(cvrp);
+        writeResultToFile(cvrp, outputDirectory + "twoopt//twoopt_" + cvrp.name + ".txt");
+
+        // Chạy thuật toán 3-Opt và ghi kết quả
+        runThreeOptFromTwoOpt(cvrp);
+        writeResultToFile(cvrp, outputDirectory + "threeopt//threeopt_" + cvrp.name + ".txt");
+
+        std::cout << "Finished processing file: " << filePath << std::endl;
+    }
 
     return 0;
 }
