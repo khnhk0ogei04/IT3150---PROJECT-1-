@@ -7,9 +7,10 @@
 
 using namespace std;
 
-struct Coord{
+struct Node{
     double x;
     double y;
+    int demand;
 };
 
 struct CVRP {
@@ -20,14 +21,13 @@ struct CVRP {
     int numberOfTrucks;
     int capacity;
     int depot;
-    vector<Coord> nodes;
+    vector<Node> nodes;
     vector<vector<int>> routes;
-    vector<int> demands;
     double lengthOfRoutes;
 };
 
-double distanceTo(Coord &a, Coord &b);
-double calculateRouteCost(vector<int> &route, vector<Coord> &nodes); // calculate cost of one truck
+double distanceTo(Node &a, Node &b);
+double calculateRouteCost(vector<int> &route, vector<Node> &nodes); // calculate cost of one truck
 CVRP readFile(const string &filename);
 void printClarkeWrightResult(CVRP &cvrp, string heuristic);
 void writeResultToFile(CVRP &cvrp, const string &filename);

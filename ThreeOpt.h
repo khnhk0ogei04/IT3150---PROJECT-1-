@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void optimizeThreeOptRoute(vector<int> &route, vector<Coord> &nodes);
+void optimizeThreeOptRoute(vector<int> &route, vector<Node> &nodes);
 void runThreeOptFromTwoOpt(CVRP &cvrp);
 
 #endif // THREEOPT_H_INCLUDED

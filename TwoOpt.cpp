@@ -5,7 +5,7 @@
 #include <cmath>
 
 using namespace std;
-void optimizeTwoOptRoute(vector<int> &route, vector<Coord> &nodes) {
+void optimizeTwoOptRoute(vector<int> &route, vector<Node> &nodes) {
     bool improved = true;
 
     while (improved) {
@@ -29,15 +29,15 @@ void optimizeTwoOptRoute(vector<int> &route, vector<Coord> &nodes) {
 void runTwoOptFromClarkeWright(CVRP &cvrp) {
     double initialCost = 0, optimizedCost = 0;
 
-    for (auto &route : cvrp.routes) {
+    for (vector<int> &route : cvrp.routes) {
         initialCost += calculateRouteCost(route, cvrp.nodes);
     }
 
-    for (auto &route : cvrp.routes) {
+    for (vector<int> &route : cvrp.routes) {
         optimizeTwoOptRoute(route, cvrp.nodes);
     }
 
-    for (auto &route : cvrp.routes) {
+    for (vector<int> &route : cvrp.routes) {
         optimizedCost += calculateRouteCost(route, cvrp.nodes);
     }
 
