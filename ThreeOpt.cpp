@@ -12,8 +12,8 @@ using namespace std;
 const double EPSILON = 1e-6;
 
 double computeThreeOptGain(
-    const vector<int> &route,
-    const vector<vector<double>> &distMatrix,
+    vector<int> &route,
+    vector<vector<double>> &distMatrix,
     int j, int k, int l,
     int typeCase)
 {
