@@ -10,8 +10,9 @@ using namespace std;
 namespace fs = filesystem;
 
 int main() {
-    string inputDirectory = "C://Users//Lenovo//Downloads//Vrp-Set-A//A//";
-    string outputDirectory = "C://Users//Lenovo//Downloads//Vrp-Set-A//";
+
+    string inputDirectory = "./A/";
+    string outputDirectory = "./";
     vector<string> vrpFiles;
     for (const auto &entry : fs::directory_iterator(inputDirectory)) {
         if (entry.path().extension() == ".vrp") {
@@ -19,22 +20,18 @@ int main() {
         }
     }
     for (string filePath : vrpFiles) {
-        cout << "Processing file: " << filePath << endl;
         CVRP cvrp = readFile(filePath);
 
         runClarkeWright(cvrp);
-        writeResultToFile(cvrp, outputDirectory + "clarkewright//clarkewright_" + cvrp.name + ".txt");
+        writeResultToFile(cvrp, outputDirectory + "clarkewright/clarkewright_" + cvrp.name + ".txt");
 
         runTwoOptFromClarkeWright(cvrp);
-        writeResultToFile(cvrp, outputDirectory + "twoopt//twoopt_" + cvrp.name + ".txt");
+        writeResultToFile(cvrp, outputDirectory + "twoopt/twoopt_" + cvrp.name + ".txt");
 
         runThreeOptFromTwoOpt(cvrp);
-        writeResultToFile(cvrp, outputDirectory + "threeopt//threeopt_" + cvrp.name + ".txt");
+        writeResultToFile(cvrp, outputDirectory + "threeopt/threeopt_" + cvrp.name + ".txt");
 
-        cout << "Finished processing file: " << filePath << endl;
-
-        std::cout << "Finished processing file: " << filePath << std::endl;
-    }
+   }
 
     return 0;
 }

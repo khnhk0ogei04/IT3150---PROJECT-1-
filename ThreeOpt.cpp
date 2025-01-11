@@ -9,11 +9,11 @@
 #include <limits>
 
 using namespace std;
-const double EPSILON = 1e-6;
+const double EPSILON = 0.001;
 
 double computeThreeOptGain(
-    const vector<int> &route,
-    const vector<vector<double>> &distMatrix,
+    vector<int> &route,
+    vector<vector<double>> &distMatrix,
     int j, int k, int l,
     int typeCase)
 {
@@ -80,27 +80,21 @@ void applyThreeOptCase(vector<int> &route, int j, int k, int l, int typeCase)
     vector<int> newRoute;
     if(typeCase == 1) {
         // dảo (j + 1, k)
-        for (int i = 0; i <= j; i++) newRoute.push_back(route[i]);
-        for (int i = k; i >= j + 1; i--) newRoute.push_back(route[i]);
-        for (int i = k + 1; i < route.size(); i++) newRoute.push_back(route[i]);
+        reverse(route.begin() + j + 1, route.begin() + k + 1);
     }
     else if(typeCase == 2) {
         // đảo (k+1..l)
-        for (int i = 0; i <= k; i++) newRoute.push_back(route[i]);
-        for (int i = l; i >= k + 1; i--) newRoute.push_back(route[i]);
-        for (int i = l + 1; i < route.size(); i++) newRoute.push_back(route[i]);
+        reverse(route.begin() + k + 1, route.begin() + l + 1);
     }
     else if(typeCase == 3) {
         // đảo (j+1..k) và (k+1..l)
-        for (int i = 0; i <= j; i++) newRoute.push_back(route[i]);
-        for (int i = k; i >= j + 1; i--) newRoute.push_back(route[i]);
-        for (int i = l; i >= k + 1; i--) newRoute.push_back(route[i]);
-        for (int i = l + 1; i < route.size(); i++) newRoute.push_back(route[i]);
+        reverse(route.begin() + j + 1, route.begin() + k + 1);
+        reverse(route.begin() + k + 1, route.begin() + l + 1);
     }
     else if(typeCase == 4) {
-        reverse(route.begin()+j+1, route.begin()+l+1);
-        reverse(route.begin()+j+1, route.begin()+j+1+(l-k));
-        reverse(route.begin()+j+1+(l-k), route.begin()+l+1);
+        reverse(route.begin() + j + 1, route.begin() + l + 1);
+        reverse(route.begin() + j + 1, route.begin() + j + 1 + (l - k));
+        reverse(route.begin() + j + 1 + (l - k), route.begin() + l + 1);
     }
     else if(typeCase == 5) {
         reverse(route.begin() + j + 1, route.begin() + l + 1);
@@ -123,8 +117,8 @@ void optimizeThreeOptRoute(vector<int> &route, vector<Node> &nodes)
 
     int numberOfNodes = nodes.size();
     vector<vector<double>> distMatrix(numberOfNodes, vector<double>(numberOfNodes, 0.0));
-    for(int i=0; i< numberOfNodes; i++){
-        for(int j=0; j< numberOfNodes; j++){
+    for(int i = 1; i <= numberOfNodes - 1; i++){
+        for(int j = 1; j <= numberOfNodes - 1; j++){
             distMatrix[i][j] = distanceTo(nodes[i], nodes[j]);
         }
     }
